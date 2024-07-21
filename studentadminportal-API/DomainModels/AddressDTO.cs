@@ -1,6 +1,6 @@
 ﻿namespace studentadminportal_API.DomainModels
 {
-    public class Address
+    public class AddressDTO
     {
         public Guid Id { get; set; }
         public string PhysicalAddress { get; set; }

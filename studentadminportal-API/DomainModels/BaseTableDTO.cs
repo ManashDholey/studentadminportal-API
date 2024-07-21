@@ -1,8 +1,7 @@
 ﻿namespace studentadminportal_API.DomainModels
 {
-    public class Gender
+    public class BaseTableDTO
     {
         public Guid Id { get; set; }
-        public string Description { get; set; }
     }
 }

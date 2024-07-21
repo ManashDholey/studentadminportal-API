@@ -26,7 +26,7 @@ namespace studentadminportal_API.Controllers
         {
             var students = await _studentRepository.GetStudentsAsync();
 
-            return Ok(_mapper.Map<List<Student>>(students));
+            return Ok(_mapper.Map<List<StudentDTO>>(students));
         }
 
         [HttpGet]
@@ -42,7 +42,7 @@ namespace studentadminportal_API.Controllers
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<Student>(student));
+            return Ok(_mapper.Map<StudentDTO>(student));
         }
 
         [HttpPut]
@@ -56,7 +56,7 @@ namespace studentadminportal_API.Controllers
 
                 if (updatedStudent != null)
                 {
-                    return Ok(_mapper.Map<Student>(updatedStudent));
+                    return Ok(_mapper.Map<StudentDTO>(updatedStudent));
                 }
             }
             return NotFound();
@@ -69,7 +69,7 @@ namespace studentadminportal_API.Controllers
             if (await _studentRepository.Exists(studentId))
             {
                 var student = await _studentRepository.DeleteStudent(studentId);
-                return Ok(_mapper.Map<Student>(student));
+                return Ok(_mapper.Map<StudentDTO>(student));
             }
 
             return NotFound();
@@ -81,7 +81,7 @@ namespace studentadminportal_API.Controllers
         {
             var student = await _studentRepository.AddStudent(_mapper.Map<DataModels.Student>(request));
             return CreatedAtAction(nameof(GetStudentAsync), new { studentId = student.Id },
-                _mapper.Map<Student>(student));
+                _mapper.Map<StudentDTO>(student));
         }
 
         [HttpPost]

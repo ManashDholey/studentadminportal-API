@@ -1,6 +1,6 @@
 ﻿namespace studentadminportal_API.DomainModels
 {
-    public class Student
+    public class StudentDTO
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }
@@ -10,7 +10,7 @@
         public long Mobile { get; set; }
         public string ProfileImageUrl { get; set; }
         public Guid GenderId { get; set; }
-        public Gender Gender { get; set; }
-        public Address Address { get; set; }
+        public GenderDTO Gender { get; set; }
+        public AddressDTO Address { get; set; }
     }
 }
