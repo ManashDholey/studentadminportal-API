@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using studentadminportal_API.DomainModels;
-using studentadminportal_API.Repositories;
+using studentadminportal_API.Repositories.Interfaces;
 
 namespace studentadminportal_API.Controllers
 {

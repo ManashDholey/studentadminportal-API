@@ -1,6 +1,6 @@
 ﻿using studentadminportal_API.DataModels;
 
-namespace studentadminportal_API.Repositories
+namespace studentadminportal_API.Repositories.Interfaces
 {
     public interface IStudentRepository
     {

@@ -1,4 +1,4 @@
-﻿namespace studentadminportal_API.Repositories
+﻿namespace studentadminportal_API.Repositories.Interfaces
 {
     public interface IImageRepository
     {

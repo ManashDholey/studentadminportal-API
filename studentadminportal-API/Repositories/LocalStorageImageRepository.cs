@@ -1,4 +1,6 @@
-﻿namespace studentadminportal_API.Repositories
+﻿using studentadminportal_API.Repositories.Interfaces;
+
+namespace studentadminportal_API.Repositories
 {
     public class LocalStorageImageRepository : IImageRepository
     {

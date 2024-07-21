@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using studentadminportal_API.DomainModels;
-using studentadminportal_API.Repositories;
+using studentadminportal_API.Repositories.Interfaces;
 
 namespace studentadminportal_API.Validators
 {
