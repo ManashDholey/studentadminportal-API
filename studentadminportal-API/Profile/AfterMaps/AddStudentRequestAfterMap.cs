@@ -1,18 +1,15 @@
 ﻿using studentadminportal_API.DomainModels;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DataModel = studentadminportal_API.DataModels;
+using Core.Entities.DataModels;
 namespace studentadminportal_API.Profile.AfterMaps
 {
-    public class AddStudentRequestAfterMap : IMappingAction<AddStudentRequest, DataModel.Student>
+    public class AddStudentRequestAfterMap : IMappingAction<AddStudentRequest, Student>
     {
-        public void Process(AddStudentRequest source, DataModel.Student destination, ResolutionContext context)
+        public void Process(AddStudentRequest source, Student destination, ResolutionContext context)
         {
             destination.Id = Guid.NewGuid();
-            destination.Address = new DataModel.Address()
+            destination.Address = new Address()
             {
                 Id = Guid.NewGuid(),
                 PhysicalAddress = source.PhysicalAddress,

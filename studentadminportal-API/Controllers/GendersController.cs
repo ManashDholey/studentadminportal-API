@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Core.Interfaces.Services;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using studentadminportal_API.DomainModels;
-using studentadminportal_API.Repositories.Interfaces;
+
 
 namespace studentadminportal_API.Controllers
 {
@@ -10,19 +12,19 @@ namespace studentadminportal_API.Controllers
     [ApiController]
     public class GendersController : ControllerBase
     {
-        private readonly IStudentRepository _studentRepository;
+        private readonly IStudentServices _studentServices;
         private readonly IMapper _mapper;
 
-        public GendersController(IStudentRepository studentRepository, IMapper mapper)
+        public GendersController(IStudentServices studentServices, IMapper mapper)
         {
-            _studentRepository = studentRepository;
+            _studentServices = studentServices;
             _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllGenders()
         {
-            var genderList = await _studentRepository.GetGendersAsync();
+            var genderList = await _studentServices.GetGendersAsync();
 
             if (genderList == null || !genderList.Any())
             {

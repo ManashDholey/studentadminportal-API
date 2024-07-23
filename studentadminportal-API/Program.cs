@@ -1,13 +1,19 @@
+using Core.Interfaces;
+using Core.Interfaces.Services;
+using Core.Interfaces.Unit;
 using FluentValidation.AspNetCore;
+using Infrastructure.Data.Repositories;
+using Infrastructure.Data.Unit;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using studentadminportal_API.DataModels;
-using studentadminportal_API.Repositories;
+using studentadminportal_API.FileServices;
+using studentadminportal_API.FileServices.Interface;
 using studentadminportal_API.Profile;
-using studentadminportal_API.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,9 +35,12 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 builder.Services.AddDbContext<StudentAdminContext>(options =>
                options.UseSqlServer(builder.Configuration.GetConnectionString("StudentAdminPortalDb")));
 
-builder.Services.AddScoped<IStudentRepository,StudentRepository>();
+builder.Services.AddScoped<IStudentServices, StudentServices>();
 builder.Services.AddScoped<IImageRepository,LocalStorageImageRepository>();
-builder.Services.AddScoped<IClassRepository,ClassRepository> ();
+builder.Services.AddScoped<IClassServices,ClassServices>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 

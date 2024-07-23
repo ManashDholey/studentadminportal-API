@@ -1,12 +1,13 @@
-﻿using FluentValidation;
+﻿using Core.Interfaces;
+using Core.Interfaces.Services;
+using FluentValidation;
 using studentadminportal_API.DomainModels;
-using studentadminportal_API.Repositories.Interfaces;
 
 namespace studentadminportal_API.Validators
 {
     public class UpdateStudentRequestValidator : AbstractValidator<UpdateStudentRequest>
     {
-        public UpdateStudentRequestValidator(IStudentRepository studentRepository)
+        public UpdateStudentRequestValidator(IStudentServices studentServices)
         {
             RuleFor(x => x.FirstName).NotEmpty();
             RuleFor(x => x.LastName).NotEmpty();
@@ -15,7 +16,7 @@ namespace studentadminportal_API.Validators
             RuleFor(x => x.Mobile).GreaterThan(99999).LessThan(10000000000);
             RuleFor(x => x.GenderId).NotEmpty().Must(id =>
             {
-                var gender = studentRepository.GetGendersAsync().Result.ToList()
+                var gender = studentServices.GetGendersAsync().Result.ToList()
                 .FirstOrDefault(x => x.Id == id);
 
                 if (gender != null)

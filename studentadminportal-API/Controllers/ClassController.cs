@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
+using Core.Entities.DataModels;
+using Core.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using studentadminportal_API.DomainModels;
-using studentadminportal_API.Repositories;
-using studentadminportal_API.Repositories.Interfaces;
+
 
 namespace studentadminportal_API.Controllers
 {
@@ -11,10 +12,10 @@ namespace studentadminportal_API.Controllers
     [ApiController]
     public class ClassController : ControllerBase
     {
-        private readonly IClassRepository _classRepository;
+        private readonly IClassServices _classRepository;
         private readonly IMapper _mapper;
 
-        public ClassController(IClassRepository classRepository, IMapper mapper)
+        public ClassController(IClassServices classRepository, IMapper mapper)
         {
             _classRepository = classRepository;
             _mapper = mapper;
@@ -51,7 +52,7 @@ namespace studentadminportal_API.Controllers
             if (await _classRepository.Exists(classId))
             {
                 // Update Details
-                var updatedClass = await _classRepository.UpdateClass(classId, _mapper.Map<DataModels.ClassDetail>(request));
+                var updatedClass = await _classRepository.UpdateClass(classId, _mapper.Map<ClassDetail>(request));
 
                 if (updatedClass != null)
                 {
@@ -78,7 +79,7 @@ namespace studentadminportal_API.Controllers
         [Route("Add")]
         public async Task<IActionResult> AddClassAsync([FromBody] ClassDetailDTO request)
         {
-            var classDetails = await _classRepository.AddClass(_mapper.Map<DataModels.ClassDetail>(request));
+            var classDetails = await _classRepository.AddClass(_mapper.Map<ClassDetail>(request));
             return CreatedAtAction(nameof(GetClassAsync), new { classId = classDetails.Id },
                 _mapper.Map<ClassDetailDTO>(classDetails));
         }

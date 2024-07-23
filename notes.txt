@@ -1,0 +1,4 @@
+mrigration commend :
+dotnet ef migrations add FirstMrigration -p Infrastructure -s studentadminportal-API -c StudentAdminContext
+
+dotnet ef database update  FirstMrigration -p Infrastructure -s studentadminportal-API -c StudentAdminContext

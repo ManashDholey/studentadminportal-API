@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using Core.Entities.DataModels;
+using Core.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using studentadminportal_API.DomainModels;
-using studentadminportal_API.Repositories.Interfaces;
+using studentadminportal_API.FileServices.Interface;
+
 
 namespace studentadminportal_API.Controllers
 {
@@ -10,11 +13,11 @@ namespace studentadminportal_API.Controllers
     [ApiController]
     public class StudentsController : ControllerBase
     {
-        private readonly IStudentRepository _studentRepository;
+        private readonly IStudentServices _studentRepository;
         private readonly IMapper _mapper;
         private readonly IImageRepository _imageRepository;
 
-        public StudentsController(IStudentRepository studentRepository, IMapper mapper,
+        public StudentsController(IStudentServices studentRepository, IMapper mapper,
             IImageRepository imageRepository)
         {
             _studentRepository = studentRepository;
@@ -52,7 +55,7 @@ namespace studentadminportal_API.Controllers
             if (await _studentRepository.Exists(studentId))
             {
                 // Update Details
-                var updatedStudent = await _studentRepository.UpdateStudent(studentId, _mapper.Map<DataModels.Student>(request));
+                var updatedStudent = await _studentRepository.UpdateStudent(studentId, _mapper.Map<Student>(request));
 
                 if (updatedStudent != null)
                 {
@@ -79,7 +82,7 @@ namespace studentadminportal_API.Controllers
         [Route("Add")]
         public async Task<IActionResult> AddStudentAsync([FromBody] AddStudentRequest request)
         {
-            var student = await _studentRepository.AddStudent(_mapper.Map<DataModels.Student>(request));
+            var student = await _studentRepository.AddStudent(_mapper.Map<Student>(request));
             return CreatedAtAction(nameof(GetStudentAsync), new { studentId = student.Id },
                 _mapper.Map<StudentDTO>(student));
         }
