@@ -16,6 +16,7 @@ namespace Infrastructure.Services
 
         public async Task<ClassDetail> AddClass(ClassDetail request)
         {
+            request.Id = Guid.NewGuid();
             var classDetail = await _unitOfWork.Repository<ClassDetail>().Add(request);
             await _unitOfWork.Complete();
             return classDetail!;
