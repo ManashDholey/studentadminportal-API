@@ -8,9 +8,9 @@ using studentadminportal_API.DomainModels;
 
 namespace studentadminportal_API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ClassController : ControllerBase
+    //[Route("api/[controller]")]
+    //[ApiController]
+    public class ClassController : BaseApiController
     {
         private readonly IClassServices _classRepository;
         private readonly IMapper _mapper;
@@ -47,7 +47,7 @@ namespace studentadminportal_API.Controllers
 
         [HttpPut]
         [Route("{classId:guid}")]
-        public async Task<IActionResult> UpdateClassAsync([FromRoute] Guid classId, [FromBody] UpdateStudentRequest request)
+        public async Task<IActionResult> UpdateClassAsync([FromRoute] Guid classId, [FromBody] ClassDetailDTO request)
         {
             if (await _classRepository.Exists(classId))
             {

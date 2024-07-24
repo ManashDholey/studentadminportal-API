@@ -8,9 +8,9 @@ using studentadminportal_API.DomainModels;
 
 namespace studentadminportal_API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class GendersController : ControllerBase
+    //[Route("api/[controller]")]
+    //[ApiController]
+    public class GendersController : BaseApiController
     {
         private readonly IStudentServices _studentServices;
         private readonly IMapper _mapper;

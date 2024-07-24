@@ -9,9 +9,9 @@ using studentadminportal_API.FileServices.Interface;
 
 namespace studentadminportal_API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class StudentsController : ControllerBase
+    //[Route("api/[controller]")]
+    //[ApiController]
+    public class StudentsController : BaseApiController
     {
         private readonly IStudentServices _studentRepository;
         private readonly IMapper _mapper;
