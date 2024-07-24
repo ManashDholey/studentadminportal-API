@@ -39,6 +39,10 @@ builder.Services.AddScoped<IStudentServices, StudentServices>();
 builder.Services.AddScoped<IImageRepository,LocalStorageImageRepository>();
 builder.Services.AddScoped<IClassServices,ClassServices>();
 builder.Services.AddScoped<IClassFeeServices,ClassFeeServices>();
+builder.Services.AddScoped<ITeachersServices,TeachersServices>();
+builder.Services.AddScoped<ITeachersAttendanceServices,TeachersAttendanceServices>();
+builder.Services.AddScoped<IStudentsAttendanceServices,StudentsAttendanceServices>();
+builder.Services.AddScoped<ITeachersSubjectServices,TeachersSubjectServices>(); 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 

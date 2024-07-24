@@ -12,5 +12,7 @@ namespace Core.Entities.DataModels
         public Subject? Subject { get; set; }
         public Guid? TeacherId { get; set; }
         public Teacher? Teacher { get; set; }
+        public DateTime CreateDate { get; set; }
+        public DateTime UpdateDate { get; set; }
     }
 }
