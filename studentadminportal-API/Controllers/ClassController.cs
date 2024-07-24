@@ -64,7 +64,7 @@ namespace studentadminportal_API.Controllers
 
         [HttpDelete]
         [Route("{classId:guid}")]
-        public async Task<IActionResult> DeleteStudentAsync([FromRoute] Guid classId)
+        public async Task<IActionResult> DeleteClassAsync([FromRoute] Guid classId)
         {
             if (await _classRepository.Exists(classId))
             {

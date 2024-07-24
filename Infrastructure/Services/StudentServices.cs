@@ -60,7 +60,7 @@ namespace Infrastructure.Services
         public async Task<IReadOnlyList<Student>> GetStudentsAsync()
         {
             var studentSpec = new ProductSpecification();
-            return await _unitOfWork.Repository<Student>().ListAsync(studentSpec);
+            return await _unitOfWork.Repository<Student>().ListWithSpecAsync(studentSpec);
         }
 
         public async Task<bool> UpdateProfileImage(Guid studentId, string profileImageUrl)

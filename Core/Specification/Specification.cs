@@ -18,7 +18,7 @@ namespace Core.Specification
         {
             Criteria = criteria;
         }
-
+        //Where condition
         public Expression<Func<T, bool>> Criteria { get; }
 
         public List<Expression<Func<T, object>>> Includes { get; } = new List<Expression<Func<T, object>>>();

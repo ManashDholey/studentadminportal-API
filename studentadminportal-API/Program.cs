@@ -38,6 +38,7 @@ builder.Services.AddDbContext<StudentAdminContext>(options =>
 builder.Services.AddScoped<IStudentServices, StudentServices>();
 builder.Services.AddScoped<IImageRepository,LocalStorageImageRepository>();
 builder.Services.AddScoped<IClassServices,ClassServices>();
+builder.Services.AddScoped<IClassFeeServices,ClassFeeServices>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 
