@@ -20,7 +20,9 @@ namespace Infrastructure.Services
         }
         public async Task<TeacherAttendance> Add(TeacherAttendance request)
         {
-            return await _unitOfWork.Repository<TeacherAttendance>().Add(request);
+            var data = await _unitOfWork.Repository<TeacherAttendance>().Add(request);
+            await _unitOfWork.Complete();
+            return data;
         }
 
         public async Task<TeacherAttendance> Delete(Guid Id)

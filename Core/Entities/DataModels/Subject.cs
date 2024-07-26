@@ -2,9 +2,9 @@
 
 namespace Core.Entities.DataModels
 {
-    public class Subject
+    public class Subject:BaseTable
     {
-        public Guid SubjectId { get; set; }
+        //public Guid SubjectId { get; set; }
         public required string  SubjectName { get; set; }
         [ForeignKey("ClassDetail")]
         public Guid ClassDetailId { get; set; }

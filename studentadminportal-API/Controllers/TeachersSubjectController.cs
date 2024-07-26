@@ -8,8 +8,6 @@ using studentadminportal_API.DomainModels;
 
 namespace studentadminportal_API.Controllers
 {
-    //[Route("api/[controller]")]
-    //[ApiController]
     public class TeachersSubjectController : BaseApiController
     {
         private readonly ITeachersSubjectServices _teachersSubjectServices;
@@ -29,8 +27,8 @@ namespace studentadminportal_API.Controllers
         }
 
         [HttpGet]
-        [Route("{teacherId:guid}"), ActionName("GetTeacherAttendanceByIdAsync")]
-        public async Task<IActionResult> GetTeacherAttendanceByIdAsync([FromRoute] Guid teacherId)
+        [Route("{teacherId:guid}"), ActionName("GetTeacherSubjectByIdAsync")]
+        public async Task<IActionResult> GetTeacherSubjectByIdAsync([FromRoute] Guid teacherId)
         {
             // Fetch Teacher Details
             var teacher = await _teachersSubjectServices.GetByIdAsync(teacherId);
@@ -78,7 +76,7 @@ namespace studentadminportal_API.Controllers
         public async Task<IActionResult> AddTeacherAsync([FromBody] TeacherAttendanceDTO request)
         {
             var teacher = await _teachersSubjectServices.Add(_mapper.Map<TeacherSubject>(request));
-            return CreatedAtAction(nameof(GetTeacherAttendanceByIdAsync), new { classId = teacher.Id },
+            return CreatedAtAction(nameof(GetTeacherSubjectByIdAsync), new { classId = teacher.Id },
                 _mapper.Map<TeacherSubjectDTO>(teacher));
         }
     }
