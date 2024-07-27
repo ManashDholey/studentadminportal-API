@@ -80,7 +80,7 @@ namespace studentadminportal_API.Controllers
         public async Task<IActionResult> AddClassAsync([FromBody] FeesDTO request)
         {
             var classFeesDetails = await _classFeeServices.AddClassFees(_mapper.Map<Fees>(request));
-            return CreatedAtAction(nameof(GetClassFeesByIdAsync), new { classId = classFeesDetails.Id },
+            return CreatedAtAction(nameof(GetClassFeesByIdAsync), new { classFeesId = classFeesDetails.Id },
                 _mapper.Map<FeesDTO>(classFeesDetails));
         }
 

@@ -10,3 +10,5 @@ dotnet ef database update  AddProMrigration -p Infrastructure -s studentadminpor
 dotnet ef migrations add AlterProMrigration -p Infrastructure -s studentadminportal-API -c StudentAdminContext
 
 dotnet ef database update  AlterProMrigration -p Infrastructure -s studentadminportal-API -c StudentAdminContext
+dotnet ef migrations add AddressProMrigration -p Infrastructure -s studentadminportal-API -c StudentAdminContext
+dotnet ef database update  AddressProMrigration -p Infrastructure -s studentadminportal-API -c StudentAdminContext
