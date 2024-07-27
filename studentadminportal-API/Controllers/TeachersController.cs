@@ -5,6 +5,7 @@ using Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using studentadminportal_API.DomainModels;
+using studentadminportal_API.FileServices.Interface;
 
 namespace studentadminportal_API.Controllers
 {
@@ -14,11 +15,13 @@ namespace studentadminportal_API.Controllers
     {
         private readonly ITeachersServices _teachersServices;
         private readonly IMapper _mapper;
+        private readonly IImageRepository _imageRepository;
 
-        public TeachersController(ITeachersServices teachersServices, IMapper mapper)
+        public TeachersController(ITeachersServices teachersServices, IMapper mapper, IImageRepository imageRepository)
         {
             _teachersServices= teachersServices;
             _mapper = mapper;
+            _imageRepository = imageRepository;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllTeachersAsync()
@@ -82,7 +85,42 @@ namespace studentadminportal_API.Controllers
             return CreatedAtAction(nameof(GetTeacherByIdAsync), new { classId = teacher.Id },
                 _mapper.Map<TeacherDTO>(teacher));
         }
+        [HttpPost]
+        [Route("{teacherId:guid}/upload-image")] //upload-image
+        public async Task<IActionResult> UploadImage([FromRoute] Guid teacherId, IFormFile profileImage)
+        {
+            var validExtensions = new List<string>
+            {
+               ".jpeg",
+               ".png",
+               ".gif",
+               ".jpg"
+            };
 
+            if (profileImage != null && profileImage.Length > 0)
+            {
+                var extension = Path.GetExtension(profileImage.FileName);
+                if (validExtensions.Contains(extension))
+                {
+                    if (await _teachersServices.Exists(teacherId))
+                    {
+                        var fileName = Guid.NewGuid() + Path.GetExtension(profileImage.FileName);
+
+                        var fileImagePath = await _imageRepository.Upload(profileImage, fileName);
+
+                        if (await _teachersServices.UpdateProfileImage(teacherId, fileImagePath))
+                        {
+                            return Ok(fileImagePath);
+                        }
+
+                        return StatusCode(StatusCodes.Status500InternalServerError, "Error uploading image");
+                    }
+                }
+
+                return BadRequest("This is not a valid Image format");
+            }
+            return NotFound();
+        }
 
 
     }

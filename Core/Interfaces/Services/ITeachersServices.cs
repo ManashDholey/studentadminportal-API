@@ -11,5 +11,6 @@ namespace Core.Interfaces.Services
         Task<Teacher> UpdateTeacher(Guid Id, Teacher request);
         Task<Teacher> DeleteTeacher(Guid Id);
         Task<Teacher> AddTeacher(Teacher request);
+        Task<bool> UpdateProfileImage(Guid teacherId, string profileImageUrl);
     }
 }

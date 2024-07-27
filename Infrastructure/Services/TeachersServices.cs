@@ -44,7 +44,21 @@ namespace Infrastructure.Services
         {
             return await _unitOfWork.Repository<Teacher>().GetByIdAsync(Id);
         }
+        public async Task<bool> UpdateProfileImage(Guid teacherId, string profileImageUrl)
+        {
+            
+            var teacher = await _unitOfWork.Repository<Teacher>().GetByIdAsync(teacherId);
 
+            if (teacher != null)
+            {
+                teacher.ProfileImageUrl = profileImageUrl;
+                //await context.SaveChangesAsync();
+                await _unitOfWork.Complete();
+                return true;
+            }
+            return false;
+
+        }
         public async Task<IReadOnlyList<Teacher>> GetTeachersAsync()
         {
             return await _unitOfWork.Repository<Teacher>().GetAllAsync();
