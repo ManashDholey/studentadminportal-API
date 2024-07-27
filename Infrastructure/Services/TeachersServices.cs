@@ -1,6 +1,7 @@
 ﻿using Core.Entities.DataModels;
 using Core.Interfaces.Services;
 using Core.Interfaces.Unit;
+using Core.Specification;
 using Infrastructure.Data.Unit;
 
 namespace Infrastructure.Services
@@ -16,9 +17,15 @@ namespace Infrastructure.Services
 
         public async Task<Teacher> AddTeacher(Teacher request)
         {
-            var data = await _unitOfWork.Repository<Teacher>().Add(request);
-            await _unitOfWork.Complete();
-            return data;
+            var spec = new TeacherSpecification(request.Email);
+            var teacher = await _unitOfWork.Repository<Teacher>().GetEntityWithSpec(spec);
+            if (teacher == null)
+            {
+                var data = await _unitOfWork.Repository<Teacher>().Add(request);
+                await _unitOfWork.Complete();
+                return data;
+            }
+            return teacher;
         }
 
         public async Task<Teacher> DeleteTeacher(Guid Id)

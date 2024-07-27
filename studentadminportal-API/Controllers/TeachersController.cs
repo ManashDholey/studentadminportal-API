@@ -17,7 +17,9 @@ namespace studentadminportal_API.Controllers
         private readonly IMapper _mapper;
         private readonly IImageRepository _imageRepository;
 
-        public TeachersController(ITeachersServices teachersServices, IMapper mapper, IImageRepository imageRepository)
+        public TeachersController(ITeachersServices teachersServices,
+            IMapper mapper, 
+            IImageRepository imageRepository)
         {
             _teachersServices= teachersServices;
             _mapper = mapper;

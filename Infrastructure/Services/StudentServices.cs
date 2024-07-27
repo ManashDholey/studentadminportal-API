@@ -17,10 +17,14 @@ namespace Infrastructure.Services
         }
         public async Task<Student> AddStudent(Student request)
         {
-           var studentData = await _unitOfWork.Repository<Student>().Add(request);
-            await _unitOfWork.Complete();
-            return studentData!;
-
+            var spec = new StudentSpesification(request.Email);
+            var data = await _unitOfWork.Repository<Student>().GetEntityWithSpec(spec);
+            if (data == null){
+                var studentData = await _unitOfWork.Repository<Student>().Add(request);
+                await _unitOfWork.Complete();
+                return studentData!;
+            }
+            return data;
         }
 
         public async Task<Student> DeleteStudent(Guid studentId)
