@@ -1,8 +1,12 @@
-﻿using Core.Entities.DataModels;
+﻿using Azure.Core;
+using Core.Entities.DataModels;
 using Core.Interfaces.Services;
 using Core.Interfaces.Unit;
+using Core.Response;
 using Core.Specification;
 using Infrastructure.Data.Unit;
+using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
 
 namespace Infrastructure.Services
 {
@@ -15,41 +19,63 @@ namespace Infrastructure.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Teacher> AddTeacher(Teacher request)
+        public async Task<Response<Teacher>> AddTeacher(Teacher request)
         {
+            var response = new Response<Teacher>();
             var spec = new TeacherSpecification(request.Email);
             var teacher = await _unitOfWork.Repository<Teacher>().GetEntityWithSpec(spec);
             if (teacher == null)
             {
                 var data = await _unitOfWork.Repository<Teacher>().Add(request);
                 await _unitOfWork.Complete();
-                return data;
+                response.Data = data;
+                response.Success = true;
+                response.ErrorMessage = string.Empty;
+                return response;
             }
-            return teacher;
+            response.Success = false;
+            response.ErrorMessage = Messages.TeacherDataNotFound;
+            response.Data = request;
+            return response;
         }
 
-        public async Task<Teacher> DeleteTeacher(Guid Id)
+        public async Task<Response<Teacher>> DeleteTeacher(Guid Id)
         {
+            var response = new Response<Teacher>();
             var teacher = await _unitOfWork.Repository<Teacher>().GetByIdAsync(Id);
 
             if (teacher != null)
             {
                 _unitOfWork.Repository<Teacher>().Delete(teacher);
                 await _unitOfWork.Complete();
-                return teacher;
+                response.Success = true;
+                response.ErrorMessage = string.Empty;
+                response.Data = teacher;
+                return response;
             }
-            return null;
+            response.Success= false;
+            response.ErrorMessage = Messages.TeacherDataNotFound;
+            return response;
         }
 
-        public async Task<bool> Exists(Guid Id)
+        public async Task<Response<Teacher>> Exists(Guid Id)
         {
             var data = await _unitOfWork.Repository<Teacher>().GetByIdAsync(Id);
-            return data != null;
+            var response = new Response<Teacher>();
+            response.Success = data != null; 
+            response.ErrorMessage = string.Empty;
+            response.Data = data;
+            return response;
         }
 
-        public async Task<Teacher> GetTeacherByIdAsync(Guid Id)
+        public async Task<Response<Teacher>> GetTeacherByIdAsync(Guid Id)
         {
-            return await _unitOfWork.Repository<Teacher>().GetByIdAsync(Id);
+            var data = await _unitOfWork.Repository<Teacher>().GetByIdAsync(Id);
+            var response = new Response<Teacher>();
+            response.Success = data != null;
+            response.Data = data;
+            response.ErrorMessage = data != null ?Messages.TeacherDataFound : Messages.TeacherDataNotFound;
+            return response;
         }
         public async Task<bool> UpdateProfileImage(Guid teacherId, string profileImageUrl)
         {
@@ -66,15 +92,35 @@ namespace Infrastructure.Services
             return false;
 
         }
-        public async Task<IReadOnlyList<Teacher>> GetTeachersAsync()
+        public async Task<Response<IReadOnlyList<Teacher>>> GetTeachersAsync()
         {
-            return await _unitOfWork.Repository<Teacher>().GetAllAsync();
+            var spec = new TeacherSpecification();
+            var data = await _unitOfWork.Repository<Teacher>().ListWithSpecAsync(spec);
+            var response = new Response<IReadOnlyList<Teacher>>();
+            response.Success = data != null;
+           response.Data = data?.Select(e => new Teacher
+            {
+                Email = e.Email,
+                FirstName = e.FirstName,
+                LastName = e.LastName,
+                TeacherCode = e.TeacherCode,
+                DateOfBirth = e.DateOfBirth,
+                GenderId = e.GenderId,
+                Id = e.Id,
+                Mobile= e.Mobile,
+                ProfileImageUrl = e.ProfileImageUrl,
+                Gender = e.Gender,
+                Address = e.Address != null
+               ? new Address {Id =e.Address.Id!,PhysicalAddress=e.Address.PhysicalAddress,PostalAddress=e.Address.PostalAddress,TeacherId=e.Address.TeacherId }:null
+            }).ToList();
+            response.ErrorMessage = data != null ? Messages.TeacherDataFound  : Messages.TeacherDataNotFound;
+            return response;
         }
 
-        public async Task<Teacher> UpdateTeacher(Guid Id, Teacher request)
+        public async Task<Response<Teacher>> UpdateTeacher(Guid Id, Teacher request)
         {
             var teacher = await _unitOfWork.Repository<Teacher>().GetByIdAsync(Id);
-
+            var response = new Response<Teacher>();
             if (teacher != null)
             {
                 teacher.Address = request.Address;
@@ -83,8 +129,13 @@ namespace Infrastructure.Services
                 teacher.LastName = request.LastName;
                 teacher.Email = request.Email;
                 await _unitOfWork.Complete();
-                return teacher;
+                response.Success = true;
+                response.ErrorMessage = Messages.TeacherDataUpdate;
+                response.Data = teacher;
+                return response;
             }
+            response.Success = false;
+            response.ErrorMessage = Messages.TeacherDataNotFound;
             return null;
         }
     }

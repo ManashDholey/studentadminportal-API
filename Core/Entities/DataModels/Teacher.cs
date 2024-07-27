@@ -1,7 +1,10 @@
-﻿namespace Core.Entities.DataModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Core.Entities.DataModels
 {
     public class Teacher : BaseTable
     {
+        [MaxLength(20)]
         public required string TeacherCode { get; set; }
         public required string FirstName { get; set; }
         public required string LastName { get; set; }

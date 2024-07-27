@@ -10,5 +10,10 @@ namespace Core.Specification
             AddInclude(e => e.Gender);
             AddInclude(e => e.Address);
         }
+        public TeacherSpecification()
+        {
+            AddInclude(e => e.Gender);
+            AddInclude(e => e.Address);
+        }
     }
 }

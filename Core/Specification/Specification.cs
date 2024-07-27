@@ -31,6 +31,7 @@ namespace Core.Specification
 
         public bool IsPagingEnabled { get; private set; }
 
+        public Expression<Func<T,Object>> Select { get; protected set; }
         protected void AddInclude(Expression<Func<T, object>> includeExp)
         {
             Includes.Add(includeExp);
@@ -51,5 +52,6 @@ namespace Core.Specification
             Take = take;
             IsPagingEnabled = true;
         }
+        
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using studentadminportal_API.DomainModels;
 using studentadminportal_API.FileServices.Interface;
+using System.Runtime.InteropServices;
 
 namespace studentadminportal_API.Controllers
 {
@@ -30,7 +31,7 @@ namespace studentadminportal_API.Controllers
         {
             var teacher = await _teachersServices.GetTeachersAsync();
 
-            return Ok(_mapper.Map<List<TeacherDTO>>(teacher));
+            return Ok(_mapper.Map<List<TeacherDTO>>(teacher.Data));
         }
 
         [HttpGet]
@@ -46,14 +47,15 @@ namespace studentadminportal_API.Controllers
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<TeacherDTO>(teacher));
+            return Ok(_mapper.Map<TeacherDTO>(teacher.Data));
         }
 
         [HttpPut]
         [Route("{teacherId:guid}")]
         public async Task<IActionResult> UpdateTeachersAsync([FromRoute] Guid teacherId, [FromBody] TeacherDTO request)
         {
-            if (await _teachersServices.Exists(teacherId))
+            var data = await _teachersServices.Exists(teacherId);
+            if ((bool)data.Success)
             {
                 // Update Details
                 var updatedTeacher = await _teachersServices.UpdateTeacher(teacherId, _mapper.Map<Teacher>(request));
@@ -70,10 +72,11 @@ namespace studentadminportal_API.Controllers
         [Route("{teacherId:guid}")]
         public async Task<IActionResult> DeleteTeacherAsync([FromRoute] Guid teacherId)
         {
-            if (await _teachersServices.Exists(teacherId))
+            var data = await _teachersServices.Exists(teacherId);
+            if ((bool)data.Success)
             {
                 var teacher = await _teachersServices.DeleteTeacher(teacherId);
-                return Ok(_mapper.Map<TeacherDTO>(teacher));
+                return Ok(_mapper.Map<TeacherDTO>(teacher.Data));
             }
 
             return NotFound();
@@ -84,8 +87,8 @@ namespace studentadminportal_API.Controllers
         public async Task<IActionResult> AddTeacherAsync([FromBody] TeacherDTO request)
         {
             var teacher = await _teachersServices.AddTeacher(_mapper.Map<Teacher>(request));
-            return CreatedAtAction(nameof(GetTeacherByIdAsync), new { classId = teacher.Id },
-                _mapper.Map<TeacherDTO>(teacher));
+            return CreatedAtAction(nameof(GetTeacherByIdAsync), new { teacherId = teacher?.Data?.Id },
+                _mapper.Map<TeacherDTO>(teacher?.Data));
         }
         [HttpPost]
         [Route("{teacherId:guid}/upload-image")] //upload-image
@@ -104,7 +107,8 @@ namespace studentadminportal_API.Controllers
                 var extension = Path.GetExtension(profileImage.FileName);
                 if (validExtensions.Contains(extension))
                 {
-                    if (await _teachersServices.Exists(teacherId))
+                    var data = await _teachersServices.Exists(teacherId);
+                    if ((bool)data.Success)
                     {
                         var fileName = Guid.NewGuid() + Path.GetExtension(profileImage.FileName);
 
