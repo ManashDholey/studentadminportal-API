@@ -1,6 +1,4 @@
-﻿
-
-using Core.Entities.DataModels;
+﻿using Core.Entities.DataModels;
 
 namespace Core.Specification
 {
