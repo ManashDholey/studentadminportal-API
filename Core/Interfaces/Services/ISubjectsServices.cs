@@ -15,5 +15,6 @@ namespace Core.Interfaces.Services
         Task<Subject> Update(Guid Id, Subject request);
         Task<Subject> Delete(Guid Id);
         Task<Subject> Add(Subject request);
+        Task<IReadOnlyList<Subject>> GetByClassIdAsync(Guid? ClassDetailsId);
     }
 }

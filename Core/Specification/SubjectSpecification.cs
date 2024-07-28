@@ -9,6 +9,10 @@ namespace Core.Specification
         {
             AddInclude(o => o.ClassDetail!);
         }
+        public SubjectSpecification(Guid? ClassDetailsId) : base(equals =>  equals.ClassDetailId == ClassDetailsId)
+        {
+            AddInclude(o => o.ClassDetail!);
+        }
         public SubjectSpecification(Guid Id) : base(e => e.Id == Id)
         {
             AddInclude(o => o.ClassDetail!);

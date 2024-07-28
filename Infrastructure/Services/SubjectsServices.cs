@@ -58,7 +58,11 @@ namespace Infrastructure.Services
             var spec = new SubjectSpecification(Id);
             return await _unitOfWork.Repository<Subject>().GetEntityWithSpec(spec);
         }
-
+        public async Task<IReadOnlyList<Subject>> GetByClassIdAsync(Guid? ClassDetailsId)
+        {
+            var spec = new SubjectSpecification(ClassDetailsId);
+            return await _unitOfWork.Repository<Subject>().ListWithSpecAsync(spec);
+        }
         public async Task<Subject> Update(Guid Id, Subject request)
         {
             var subject = await _unitOfWork.Repository<Subject>().GetByIdAsync(Id);

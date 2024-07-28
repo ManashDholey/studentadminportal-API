@@ -23,7 +23,7 @@ namespace studentadminportal_API.Controllers
         {
             var teacher = await _subjectsServices.GetAllAsync();
 
-            return Ok(_mapper.Map<List<SubjectDTO>>(teacher));
+            return Ok(_mapper.Map<IReadOnlyList<SubjectDTO>>(teacher));
         }
 
         [HttpGet]
@@ -40,6 +40,21 @@ namespace studentadminportal_API.Controllers
             }
 
             return Ok(_mapper.Map<SubjectDTO>(teacher));
+        }
+        [HttpGet]
+        [Route("GetSubjectByClassIdAsync/{classId:guid}"), ActionName("GetSubjectByClassIdAsync")]
+        public async Task<IActionResult> GetSubjectByClassIdAsync([FromRoute] Guid classId)
+        {
+            // Fetch Teacher Details
+            var teacher = await _subjectsServices.GetByClassIdAsync(classId);
+
+            // Return teacher
+            if (teacher == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(_mapper.Map<IReadOnlyList<SubjectDTO>>(teacher));
         }
 
         [HttpPut]
