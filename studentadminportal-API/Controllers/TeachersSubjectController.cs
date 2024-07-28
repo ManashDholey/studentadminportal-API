@@ -27,11 +27,11 @@ namespace studentadminportal_API.Controllers
         }
 
         [HttpGet]
-        [Route("{teacherId:guid}"), ActionName("GetTeacherSubjectByIdAsync")]
-        public async Task<IActionResult> GetTeacherSubjectByIdAsync([FromRoute] Guid teacherId)
+        [Route("{teacherSubjectId:guid}"), ActionName("GetTeacherSubjectByIdAsync")]
+        public async Task<IActionResult> GetTeacherSubjectByIdAsync([FromRoute] Guid teacherSubjectId)
         {
             // Fetch Teacher Details
-            var teacher = await _teachersSubjectServices.GetByIdAsync(teacherId);
+            var teacher = await _teachersSubjectServices.GetByIdAsync(teacherSubjectId);
 
             // Return teacher
             if (teacher == null)
@@ -43,13 +43,13 @@ namespace studentadminportal_API.Controllers
         }
 
         [HttpPut]
-        [Route("{teacherId:guid}")]
-        public async Task<IActionResult> UpdatAsync([FromRoute] Guid teacherId, [FromBody] TeacherDTO request)
+        [Route("{teacherSubjectId:guid}")]
+        public async Task<IActionResult> UpdatAsync([FromRoute] Guid teacherSubjectId, [FromBody] TeacherDTO request)
         {
-            if (await _teachersSubjectServices.Exists(teacherId))
+            if (await _teachersSubjectServices.Exists(teacherSubjectId))
             {
                 // Update Details
-                var updatedTeacher = await _teachersSubjectServices.Update(teacherId, _mapper.Map<TeacherSubject>(request));
+                var updatedTeacher = await _teachersSubjectServices.Update(teacherSubjectId, _mapper.Map<TeacherSubject>(request));
 
                 if (updatedTeacher != null)
                 {
@@ -60,12 +60,12 @@ namespace studentadminportal_API.Controllers
         }
 
         [HttpDelete]
-        [Route("{teacherId:guid}")]
-        public async Task<IActionResult> DeleteTeachersAsync([FromRoute] Guid teacherId)
+        [Route("{teacherSubjectId:guid}")]
+        public async Task<IActionResult> DeleteTeachersAsync([FromRoute] Guid teacherSubjectId)
         {
-            if (await _teachersSubjectServices.Exists(teacherId))
+            if (await _teachersSubjectServices.Exists(teacherSubjectId))
             {
-                var teacher = await _teachersSubjectServices.Delete(teacherId);
+                var teacher = await _teachersSubjectServices.Delete(teacherSubjectId);
                 return Ok(_mapper.Map<TeacherSubjectDTO>(teacher));
             }
             return NotFound();
@@ -73,10 +73,10 @@ namespace studentadminportal_API.Controllers
 
         [HttpPost]
         [Route("Add")]
-        public async Task<IActionResult> AddTeacherAsync([FromBody] TeacherAttendanceDTO request)
+        public async Task<IActionResult> AddTeacherAsync([FromBody] TeacherSubjectDTO request)
         {
             var teacher = await _teachersSubjectServices.Add(_mapper.Map<TeacherSubject>(request));
-            return CreatedAtAction(nameof(GetTeacherSubjectByIdAsync), new { classId = teacher.Id },
+            return CreatedAtAction(nameof(GetTeacherSubjectByIdAsync), new { teacherSubjectId = teacher.Id },
                 _mapper.Map<TeacherSubjectDTO>(teacher));
         }
     }

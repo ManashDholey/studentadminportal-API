@@ -98,21 +98,7 @@ namespace Infrastructure.Services
             var data = await _unitOfWork.Repository<Teacher>().ListWithSpecAsync(spec);
             var response = new Response<IReadOnlyList<Teacher>>();
             response.Success = data != null;
-           response.Data = data?.Select(e => new Teacher
-            {
-                Email = e.Email,
-                FirstName = e.FirstName,
-                LastName = e.LastName,
-                TeacherCode = e.TeacherCode,
-                DateOfBirth = e.DateOfBirth,
-                GenderId = e.GenderId,
-                Id = e.Id,
-                Mobile= e.Mobile,
-                ProfileImageUrl = e.ProfileImageUrl,
-                Gender = e.Gender,
-                Address = e.Address != null
-               ? new Address {Id =e.Address.Id!,PhysicalAddress=e.Address.PhysicalAddress,PostalAddress=e.Address.PostalAddress,TeacherId=e.Address.TeacherId }:null
-            }).ToList();
+            response.Data = data;
             response.ErrorMessage = data != null ? Messages.TeacherDataFound  : Messages.TeacherDataNotFound;
             return response;
         }

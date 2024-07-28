@@ -1,7 +1,9 @@
 ﻿using Core.Entities.DataModels;
 using Core.Interfaces.Services;
 using Core.Interfaces.Unit;
+using Core.Specification;
 using Infrastructure.Data.Unit;
+using System.Runtime.InteropServices;
 
 
 namespace Infrastructure.Services
@@ -16,9 +18,15 @@ namespace Infrastructure.Services
         }
         public async Task<TeacherSubject> Add(TeacherSubject request)
         {
-            var data = await _unitOfWork.Repository<TeacherSubject>().Add(request);
-            await _unitOfWork.Complete();
-            return data;
+            var spec = new TeachersSubjectSpecification(request.ClassDetailId, request.SubjectId, request.TeacherId);
+             var data = _unitOfWork.Repository<TeacherSubject>().GetEntityWithSpec(spec);
+            if (data == null)
+            {
+                var subjectTeacher = await _unitOfWork.Repository<TeacherSubject>().Add(request);
+                await _unitOfWork.Complete();
+                return subjectTeacher;
+            }
+            return null;
         }
 
         public async Task<TeacherSubject> Delete(Guid Id)
@@ -42,7 +50,8 @@ namespace Infrastructure.Services
 
         public async Task<IReadOnlyList<TeacherSubject>> GetAllAsync()
         {
-            return await _unitOfWork.Repository<TeacherSubject>().GetAllAsync();
+            var spec = new TeachersSubjectSpecification();
+            return await _unitOfWork.Repository<TeacherSubject>().ListWithSpecAsync(spec);
         }
 
         public async Task<TeacherSubject> GetByIdAsync(Guid Id)
