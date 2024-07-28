@@ -1,3 +1,4 @@
+using Core.Entities;
 using Core.Interfaces;
 using Core.Interfaces.Services;
 using Core.Interfaces.Unit;
@@ -11,8 +12,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using studentadminportal_API.DataModels;
+using studentadminportal_API.Extensions;
 using studentadminportal_API.FileServices;
 using studentadminportal_API.FileServices.Interface;
+using studentadminportal_API.Middleware;
 using studentadminportal_API.Profile;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,25 +31,8 @@ builder.Services.AddCors((options) =>
     });
 });
 // Add services to the container.
-builder.Services.AddSwaggerGen();
-builder.Services.AddControllers();
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Program>());
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddDbContext<StudentAdminContext>(options =>
-               options.UseSqlServer(builder.Configuration.GetConnectionString("StudentAdminPortalDb")));
-
-builder.Services.AddScoped<IStudentServices, StudentServices>();
-builder.Services.AddScoped<IImageRepository,LocalStorageImageRepository>();
-builder.Services.AddScoped<IClassServices,ClassServices>();
-builder.Services.AddScoped<IClassFeeServices,ClassFeeServices>();
-builder.Services.AddScoped<ITeachersServices,TeachersServices>();
-builder.Services.AddScoped<ITeachersAttendanceServices,TeachersAttendanceServices>();
-builder.Services.AddScoped<IStudentsAttendanceServices,StudentsAttendanceServices>();
-builder.Services.AddScoped<ITeachersSubjectServices,TeachersSubjectServices>();
-builder.Services.AddScoped<ISubjectsServices, SubjectsServices>(); 
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
-
+builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
@@ -57,7 +43,8 @@ builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
 
 var app = builder.Build();
-
+app.UseMiddleware<JwtMiddleware>();
+app.UseMiddleware<ExceptionMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
