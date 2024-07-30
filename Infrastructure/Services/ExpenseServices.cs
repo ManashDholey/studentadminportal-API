@@ -1,4 +1,5 @@
-﻿using Core.Entities.DataModels;
+﻿using Azure.Core;
+using Core.Entities.DataModels;
 using Core.Interfaces.Services;
 using Core.Interfaces.Unit;
 using Core.Specification;
@@ -14,13 +15,14 @@ namespace Infrastructure.Services
         {
             _unitOfWork = unitOfWork;
         }
-        public Task<Expense> Add(Expense request)
+        public async Task<Expense> Add(Expense request)
         {
             var spec = new ExpenseSpecification(request.ClassDetailId, request.SubjectId);
-            var data = _unitOfWork.Repository<Expense>().GetEntityWithSpec(spec);
+            var data = await _unitOfWork.Repository<Expense>().GetEntityWithSpec(spec);
             if(data == null)
             {
-                var expance = _unitOfWork.Repository<Expense>().Add(request);
+                var expance = await _unitOfWork.Repository<Expense>().Add(request);
+                await _unitOfWork.Complete();
                  return expance;
             }
             return data;
@@ -45,12 +47,14 @@ namespace Infrastructure.Services
 
         public async Task<IReadOnlyList<Expense>> GetAllAsync()
         {
-            return await _unitOfWork.Repository<Expense>().GetAllAsync();
+            var spec = new ExpenseSpecification();
+            return await _unitOfWork.Repository<Expense>().ListWithSpecAsync(spec);
         }
 
         public async Task<Expense> GetByIdAsync(Guid Id)
         {
-            return await _unitOfWork.Repository<Expense>().GetByIdAsync(Id);
+            var spec = new ExpenseSpecification(Id);
+            return await _unitOfWork.Repository<Expense>().GetEntityWithSpec(spec);
         }
 
         public async Task<Expense> Update(Guid Id, Expense request)

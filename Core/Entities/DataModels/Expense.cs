@@ -2,7 +2,7 @@
 
 namespace Core.Entities.DataModels
 {
-    public class Expense:BaseTable
+    public class Expense: BaseTable
     {
         [ForeignKey("ClassDetail")]
         public Guid? ClassDetailId { get; set; }
