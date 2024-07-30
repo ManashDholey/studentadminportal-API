@@ -77,7 +77,7 @@ namespace studentadminportal_API.Controllers
             {
                 DisplayName = registerDto.DisplayName,
                 Email = registerDto.Email,
-                UserName = registerDto.Email
+                UserName = registerDto.Email,
             };
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);

@@ -24,7 +24,7 @@ namespace studentadminportal_API.Extensions
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddDbContext<StudentAdminContext>(options =>
                            options.UseSqlServer(config.GetConnectionString("StudentAdminPortalDb")));
-
+            services.Configure<AppSettings>(config.GetSection("AppSettings"));
             services.AddScoped<IStudentServices, StudentServices>();
             services.AddScoped<IImageRepository, LocalStorageImageRepository>();
             services.AddScoped<IClassServices, ClassServices>();

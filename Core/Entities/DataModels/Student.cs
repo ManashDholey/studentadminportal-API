@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core.Entities.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities.DataModels
@@ -24,5 +25,8 @@ namespace Core.Entities.DataModels
         [ForeignKey("ClassDetail")]
         public Guid? ClassDetailId { get; set; }
         public ClassDetail? ClassDetail { get; set; }
+        [MaxLength(450)]
+        public string? UserId { get; set; }
+        
     }
 }

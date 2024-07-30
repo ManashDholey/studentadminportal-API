@@ -12,3 +12,11 @@ dotnet ef migrations add AlterProMrigration -p Infrastructure -s studentadminpor
 dotnet ef database update  AlterProMrigration -p Infrastructure -s studentadminportal-API -c StudentAdminContext
 dotnet ef migrations add AddressProMrigration -p Infrastructure -s studentadminportal-API -c StudentAdminContext
 dotnet ef database update  AddressProMrigration -p Infrastructure -s studentadminportal-API -c StudentAdminContext
+dotnet ef migrations add MrigrationForUser -p Infrastructure -s studentadminportal-API -c AppIdentityDbContext
+dotnet ef database update  MrigrationForUser -p Infrastructure -s studentadminportal-API -c AppIdentityDbContext
+dotnet ef migrations add UserProMrigration -p Infrastructure -s studentadminportal-API -c StudentAdminContext
+dotnet ef database update  UserProMrigration -p Infrastructure -s studentadminportal-API -c StudentAdminContext
+dotnet ef migrations add UserRemoveProMrigration -p Infrastructure -s studentadminportal-API -c StudentAdminContext
+dotnet ef database update  UserRemoveProMrigration -p Infrastructure -s studentadminportal-API -c StudentAdminContext
+dotnet ef migrations add AddValidationMrigration -p Infrastructure -s studentadminportal-API -c StudentAdminContext
+dotnet ef database update  AddValidationMrigration -p Infrastructure -s studentadminportal-API -c StudentAdminContext
