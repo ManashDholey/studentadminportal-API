@@ -44,7 +44,7 @@ namespace studentadminportal_API.Controllers
 
         [HttpPut]
         [Route("{teacherSubjectId:guid}")]
-        public async Task<IActionResult> UpdatAsync([FromRoute] Guid teacherSubjectId, [FromBody] TeacherDTO request)
+        public async Task<IActionResult> UpdatAsync([FromRoute] Guid teacherSubjectId, [FromBody] TeacherSubjectDTO request)
         {
             if (await _teachersSubjectServices.Exists(teacherSubjectId))
             {
