@@ -1,4 +1,5 @@
 ﻿using Core.Entities.DataModels;
+using Core.Specification;
 
 
 namespace Core.Interfaces.Services
@@ -6,6 +7,8 @@ namespace Core.Interfaces.Services
     public  interface IStudentServices
     {
         Task<IReadOnlyList<Student>> GetStudentsAsync();
+        Task<IReadOnlyList<Student>> GetStudentsAsync(StudentSpecificationWithSpecParams spec);
+        Task<int> GetStudentsCountAsync(StudentSpecificationCount spec);
         Task<Student> GetStudentAsync(Guid studentId);
         Task<IReadOnlyList<Gender>> GetGendersAsync();
         Task<bool> Exists(Guid studentId);

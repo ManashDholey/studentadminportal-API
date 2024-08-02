@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using Core.Entities.DataModels;
 using Core.Interfaces.Services;
+using Core.Specification;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using studentadminportal_API.DomainModels;
 using studentadminportal_API.FileServices.Interface;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using studentadminportal_API.Helpers;
 
 
 namespace studentadminportal_API.Controllers
@@ -25,11 +28,16 @@ namespace studentadminportal_API.Controllers
             _imageRepository = imageRepository;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllStudentsAsync()
+        public async Task<IActionResult> GetAllStudentsAsync([FromQuery] StudentSpecParams specParams)
         {
-            var students = await _studentRepository.GetStudentsAsync();
+            var spec = new StudentSpecificationWithSpecParams(specParams);
+            var countSpec = new StudentSpecificationCount(specParams);
+            var count = await _studentRepository.GetStudentsCountAsync(countSpec);
+            var students = await _studentRepository.GetStudentsAsync(spec);
+            var studentData = _mapper.Map<List<StudentDTO>>(students);
 
-            return Ok(_mapper.Map<List<StudentDTO>>(students));
+            return Ok(new Pagination<StudentDTO>(specParams.PageIndex,
+                specParams.PageSize, count, studentData));
         }
 
         [HttpGet]

@@ -67,6 +67,16 @@ namespace Infrastructure.Services
             return await _unitOfWork.Repository<Student>().ListWithSpecAsync(studentSpec);
         }
 
+        public async Task<IReadOnlyList<Student>> GetStudentsAsync(StudentSpecificationWithSpecParams spec)
+        {
+            return await _unitOfWork.Repository<Student>().ListWithSpecAsync(spec);
+        }
+
+        public async Task<int> GetStudentsCountAsync(StudentSpecificationCount spec)
+        {
+            return await _unitOfWork.Repository<Student>().CountAsync(spec);
+        }
+
         public async Task<bool> UpdateProfileImage(Guid studentId, string profileImageUrl)
         {
             //var student = await GetStudentAsync(studentId);
