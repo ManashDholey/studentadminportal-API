@@ -1,5 +1,7 @@
 ﻿
 
+using Core.Entities;
+
 namespace Core.Specification
 {
     public class StudentSpecParams
@@ -16,7 +18,8 @@ namespace Core.Specification
 
         //public Guid? Id { get; set; }
         public Guid? GenderId { get; set; }
-        public string? Sort { get; set; }
+        public string? Active { get; set; } = "";
+        public string? Direction { get; set; } = "";
         private string? _search;
         public string? Search
         {
@@ -24,4 +27,5 @@ namespace Core.Specification
             set => _search = value?.ToLower();
         }
     }
+    
 }

@@ -12,8 +12,7 @@ using studentadminportal_API.Helpers;
 
 namespace studentadminportal_API.Controllers
 {
-    //[Route("api/[controller]")]
-    //[ApiController]
+    
     public class StudentsController : BaseApiController
     {
         private readonly IStudentServices _studentRepository;

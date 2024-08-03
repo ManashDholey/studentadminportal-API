@@ -14,27 +14,49 @@ namespace Core.Specification
             ApplyPaging(specParams.PageSize * (specParams.PageIndex - 1),
                 specParams.PageSize);
 
-            if (!string.IsNullOrEmpty(specParams.Sort))
+            if (!string.IsNullOrEmpty(specParams.Active) && !string.IsNullOrEmpty(specParams.Direction))
             {
-                switch (specParams.Sort)
+                switch (specParams.Active.ToLower())
                 {
-                    case "rollNoAsc":
-                        AddOrderBy(p => p.RollNo);
-                        break;
-                    case "rollNoDesc":
-                        AddOrderByDescending(p => p.RollNo);
-                        break;
-                    case "emailAsc":
-                        AddOrderBy(p => p.Email);
-                        break;
-                    case "emailDesc":
-                        AddOrderByDescending(p => p.Email);
-                        break;
+                    case "firstname":
+                        {
+                            switch (specParams.Direction?.ToLower())
+                            {
+                                case "asc":
+                                    AddOrderBy(p => p.FirstName);
+                                    break;
+                                case "desc":
+                                    AddOrderByDescending(p => p.FirstName);
+                                    break;
+                                default:
+                                    AddOrderBy(n => n.FirstName);
+                                    break;
+                            }
+                            break;
+                        }
+                    case "lastname":
+                        {
+                            switch (specParams.Direction.ToLower())
+                            {
+                                case "asc":
+                                    AddOrderBy(p => p.LastName);
+                                    break;
+                                case "desc":
+                                    AddOrderByDescending(p => p.LastName);
+                                    break;
+                                // blah..
+                                default:
+                                    AddOrderBy(n => n.LastName);
+                                    break;
+                            }
+                            break;
+                        }
                     default:
                         AddOrderBy(n => n.FirstName);
                         break;
                 }
             }
+            
         }
         public StudentSpecificationWithSpecParams( Guid Id): base(e => e.Id == Id)
         {
