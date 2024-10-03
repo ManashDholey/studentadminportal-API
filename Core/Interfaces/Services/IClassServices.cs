@@ -1,4 +1,5 @@
 ﻿using Core.Entities.DataModels;
+using Core.Specification;
 
 
 namespace Core.Interfaces.Services
@@ -11,5 +12,7 @@ namespace Core.Interfaces.Services
         Task<ClassDetail> UpdateClass(Guid classId, ClassDetail request);
         Task<ClassDetail> DeleteClass(Guid classId);
         Task<ClassDetail> AddClass(ClassDetail request);
+        Task<IReadOnlyList<ClassDetail>> GetClassWithSpecAsync(ClassSpecificationWithSpecParams spec);
+        Task<int> GetClassCountAsync(ClassCountSpecificationWithSpecParams countSpec);
     }
 }

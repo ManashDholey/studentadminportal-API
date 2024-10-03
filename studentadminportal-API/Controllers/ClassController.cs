@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Core.Entities.DataModels;
 using Core.Interfaces.Services;
+using Core.Specification;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using studentadminportal_API.DomainModels;
+using studentadminportal_API.Helpers;
 
 
 namespace studentadminportal_API.Controllers
@@ -22,11 +24,15 @@ namespace studentadminportal_API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllClassAsync()
+        public async Task<IActionResult> GetAllClassAsync([FromQuery] ClassSpecParams classSpec)
         {
-            var classDetails = await _classRepository.GetClassAsync();
-
-            return Ok(_mapper.Map<List<ClassDetailDTO>>(classDetails));
+            var spec = new ClassSpecificationWithSpecParams(classSpec);
+            var countSpec = new ClassCountSpecificationWithSpecParams(classSpec);
+            var count = await _classRepository.GetClassCountAsync(countSpec);
+            var classDetails = await _classRepository.GetClassWithSpecAsync(spec);
+            var data = _mapper.Map<List<ClassDetailDTO>>(classDetails);
+            return Ok(new Pagination<ClassDetailDTO>(classSpec.PageIndex,
+                classSpec.PageSize, count, data));
         }
 
         [HttpGet]

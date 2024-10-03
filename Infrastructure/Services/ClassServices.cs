@@ -1,6 +1,7 @@
 ﻿using Core.Entities.DataModels;
 using Core.Interfaces.Services;
 using Core.Interfaces.Unit;
+using Core.Specification;
 using Infrastructure.Data.Unit;
 using Microsoft.EntityFrameworkCore;
 
@@ -54,6 +55,16 @@ namespace Infrastructure.Services
               //  .FirstOrDefaultAsync(x => x.Id == classId);
 
             return await _unitOfWork.Repository<ClassDetail>().GetByIdAsync(classId);
+        }
+
+        public async Task<int> GetClassCountAsync(ClassCountSpecificationWithSpecParams countSpec)
+        {
+            return await _unitOfWork.Repository<ClassDetail>().CountAsync(countSpec);
+        }
+
+        public async Task<IReadOnlyList<ClassDetail>> GetClassWithSpecAsync(ClassSpecificationWithSpecParams spec)
+        {
+            return await _unitOfWork.Repository<ClassDetail>().ListWithSpecAsync(spec);
         }
 
         public async Task<ClassDetail> UpdateClass(Guid classId, ClassDetail request)
