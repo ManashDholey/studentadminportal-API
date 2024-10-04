@@ -27,9 +27,9 @@ This project is a web application built using **.NET Core** for the backend and 
 
 Before you begin, ensure you have the following installed on your machine:
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download) (version X.X.X)
-- [Node.js](https://nodejs.org/) (version X.X.X)
-- [Angular CLI](https://angular.io/cli) (version X.X.X)
+- [.NET Core SDK](https://dotnet.microsoft.com/download) (version 8.0.0)
+- [Node.js](https://nodejs.org/) (version 18.10.0)
+- [Angular CLI](https://angular.io/cli) (version 16.2.12)
 
 ### Installation
 
