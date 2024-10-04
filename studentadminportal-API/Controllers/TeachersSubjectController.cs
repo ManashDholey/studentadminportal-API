@@ -76,8 +76,10 @@ namespace studentadminportal_API.Controllers
         public async Task<IActionResult> AddTeacherAsync([FromBody] TeacherSubjectDTO request)
         {
             var teacher = await _teachersSubjectServices.Add(_mapper.Map<TeacherSubject>(request));
+            if(teacher != null)
             return CreatedAtAction(nameof(GetTeacherSubjectByIdAsync), new { teacherSubjectId = teacher.Id },
                 _mapper.Map<TeacherSubjectDTO>(teacher));
+            return BadRequest();
         }
     }
 }

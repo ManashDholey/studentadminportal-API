@@ -23,6 +23,14 @@ namespace studentadminportal_API.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet("GetAllClass")]
+        public async Task<IActionResult> GetAllClass()
+        {
+            var classDetails = await _classRepository.GetClassAsync();
+            var data = _mapper.Map<List<ClassDetailDTO>>(classDetails);
+            return Ok(data);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAllClassAsync([FromQuery] ClassSpecParams classSpec)
         {

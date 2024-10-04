@@ -29,13 +29,13 @@ if (!Directory.Exists(resourcePath))
     Directory.CreateDirectory(resourcePath);
 }
 builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(resourcePath));
-builder.Services.AddDataProtection()
-    .PersistKeysToFileSystem(new DirectoryInfo(@"h:\root\home\kumardholey-001\www\site1\keys"))
-    .SetApplicationName("kumardholey-001");
-builder.Services.AddHttpsRedirection(options =>
-{
-    options.HttpsPort = 443; // The default HTTPS port
-});
+//builder.Services.AddDataProtection()
+//    .PersistKeysToFileSystem(new DirectoryInfo(@"h:\root\home\kumardholey-001\www\site1\keys"))
+//    .SetApplicationName("kumardholey-001");
+//builder.Services.AddHttpsRedirection(options =>
+//{
+//    options.HttpsPort = 443; // The default HTTPS port
+//});
 var corsSettings = builder.Configuration.GetSection("CorsSettings").Get<CorsSettings>();
 builder.Services.AddCors((options) =>
 {
@@ -92,7 +92,7 @@ app.UseStaticFiles(new StaticFileOptions
 app.UseRouting();
 
 
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

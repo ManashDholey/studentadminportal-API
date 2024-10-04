@@ -19,7 +19,7 @@ namespace Infrastructure.Services
         public async Task<TeacherSubject> Add(TeacherSubject request)
         {
             var spec = new TeachersSubjectSpecification(request.ClassDetailId, request.SubjectId, request.TeacherId);
-             var data = _unitOfWork.Repository<TeacherSubject>().GetEntityWithSpec(spec);
+             var data = await _unitOfWork.Repository<TeacherSubject>().GetEntityWithSpec(spec);
             if (data == null)
             {
                 var subjectTeacher = await _unitOfWork.Repository<TeacherSubject>().Add(request);
