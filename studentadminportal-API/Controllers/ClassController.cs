@@ -12,6 +12,7 @@ namespace studentadminportal_API.Controllers
 {
     //[Route("api/[controller]")]
     //[ApiController]
+    [AuthorizeAttribute]
     public class ClassController : BaseApiController
     {
         private readonly IClassServices _classRepository;

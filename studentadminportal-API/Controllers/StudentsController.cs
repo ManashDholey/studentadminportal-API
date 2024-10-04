@@ -12,7 +12,7 @@ using studentadminportal_API.Helpers;
 
 namespace studentadminportal_API.Controllers
 {
-    
+    [AuthorizeAttribute]
     public class StudentsController : BaseApiController
     {
         private readonly IStudentServices _studentRepository;

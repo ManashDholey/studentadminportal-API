@@ -50,7 +50,8 @@ builder.Services.AddCors((options) =>
 // Add services to the container.
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerDocumentation();
+//builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 //builder.Services.Configure<CookiePolicyOptions>(options =>
 //{
@@ -65,21 +66,13 @@ builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
 var app = builder.Build();
 app.UseCors("angularApplication");
+app.UseRouting();
 app.UseMiddleware<JwtMiddleware>();
 app.UseMiddleware<ExceptionMiddleware>();
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "StudentAdminPortal.API v1"));
-    app.UseSwaggerUI();
-}
-else
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
+
+app.UseSwaggerDocumentation();
 
 app.UseHttpsRedirection();
 
@@ -89,7 +82,7 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/Resources"
 });
 
-app.UseRouting();
+
 
 
 app.UseAuthentication();

@@ -60,7 +60,7 @@ namespace studentadminportal_API.Extensions
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["AppSettings:Secret"])),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["AppSettings:Secret"]!)),
                     //IssuerSigningKey = Encoding.ASCII.GetBytes(config["Token:Key"]),
                     //ValidIssuer = config["Token:Issuer"],
                     ValidateIssuer = false,

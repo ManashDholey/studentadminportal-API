@@ -6,12 +6,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using studentadminportal_API.DomainModels;
 using studentadminportal_API.FileServices.Interface;
+using studentadminportal_API.Helpers;
 using System.Runtime.InteropServices;
 
 namespace studentadminportal_API.Controllers
 {
     //[Route("api/[controller]")]
     //[ApiController]
+    [AuthorizeAttribute]
     public class TeachersController : BaseApiController
     {
         private readonly ITeachersServices _teachersServices;

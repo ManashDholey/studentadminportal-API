@@ -2,6 +2,7 @@
 using Core.Entities.DataModels;
 using Core.Entities.Identity;
 using Core.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -46,7 +47,9 @@ namespace studentadminportal_API.Controllers
             };
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
+        
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
@@ -64,7 +67,9 @@ namespace studentadminportal_API.Controllers
             };
         }
 
+        [AllowAnonymous]
         [HttpPost("register")]
+        
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
             if (CheckEmailExistsAsync(registerDto.Email).Result.Value)
@@ -91,7 +96,7 @@ namespace studentadminportal_API.Controllers
                 Email = user.Email
             };
         }
-
+        [AllowAnonymous]
         [HttpGet("emailexists")]
         public async Task<ActionResult<bool>> CheckEmailExistsAsync([FromQuery] string email)
         {

@@ -5,9 +5,11 @@ using Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using studentadminportal_API.DomainModels;
+using studentadminportal_API.Helpers;
 
 namespace studentadminportal_API.Controllers
 {
+    [AuthorizeAttribute]
     public class TeachersSubjectController : BaseApiController
     {
         private readonly ITeachersSubjectServices _teachersSubjectServices;
