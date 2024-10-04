@@ -38,3 +38,5 @@ Before you begin, ensure you have the following installed on your machine:
    ```bash
    git clone https://github.com/ManashDholey/studentadminportal-API.git
    git clone https://github.com/ManashDholey/studentadminportal-ui.git
+   http://kumardholey-001-site1.htempurl.com/swagger/index.html
+   
